@@ -19,6 +19,7 @@ def shortest_path(start, end):
     a = rubik.perm_apply(start, rubik.F)
     b = rubik.perm_apply(a, rubik.Fi)
     print(a)
+
     print(b)
 
     return
