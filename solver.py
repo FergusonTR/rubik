@@ -15,41 +15,34 @@ def shortest_path(start, end):
     You can use the rubik.quarter_twists move set.
     Each move can be applied using rubik.perm_apply
     """
-
     s = start
-
-    # print(start)
-    # a = rubik.perm_apply(start, rubik.F)
-    # b = rubik.perm_apply(a, rubik.Fi)
-    # print(a)
-    #
-    # print(b)
-
-    depth = {s:0}
-    parent = {s:None}
+    parent = {}
     i = 1
-    visited = []
+    visited = [s]
+    answer_path = []
     frontier = [s]
     while frontier:
-        next = []
+        next_one = []
         for u in frontier:
-            adj = []
-            adj.append(rubik.perm_apply(u, rubik.F))
-            adj.append(rubik.perm_apply(u, rubik.Fi))
-            adj.append(rubik.perm_apply(u, rubik.L))
-            adj.append(rubik.perm_apply(u, rubik.Li))
-            adj.append(rubik.perm_apply(u, rubik.U))
-            adj.append(rubik.perm_apply(u, rubik.Ui))
-            for v in adj:
-                if v not in visited:
-                    visitv()
-				if v not in depth:
-					depth[v] = i
-					parent[v] = u
-					next.append[v]
-	    frontier = next
-	    i+=1
+            next_adj = []
+            next_adj.append(rubik.perm_apply(u, rubik.F))
+            next_adj.append(rubik.perm_apply(u, rubik.Fi))
+            next_adj.append(rubik.perm_apply(u, rubik.L))
+            next_adj.append(rubik.perm_apply(u, rubik.Li))
+            next_adj.append(rubik.perm_apply(u, rubik.U))
+            next_adj.append(rubik.perm_apply(u, rubik.Ui))
+            for v in next_adj:
+               if v not in visited:
+                    next_one.append(v)
+                    visited.append(v)
+               if v == end:
+                    return answer_path
+            frontier = next_one
+            answer_path.append(u)
+        # print('loop :', i)
+        i += 1
+    return answer_path
 
-    return (whatever)
 
-shortest_path(rubik.I, rubik.I)
+# answer = (shortest_path(rubik.I, rubik.I))
+# print (answer)
