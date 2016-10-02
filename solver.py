@@ -23,6 +23,7 @@ def shortest_path(start, end):
     frontier = [s]
     while frontier:
         next_one = []
+
         for u in frontier:
             next_adj = []
             next_adj.append(rubik.perm_apply(u, rubik.F))
