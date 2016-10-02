@@ -6,6 +6,6 @@ def shortest_path(start, end):
     end_position. Returns a list of moves. 
     Assumes the rubik.quarter_twists move set.
     """
-    print("test");
+
 
     return None
