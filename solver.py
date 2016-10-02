@@ -15,4 +15,12 @@ def shortest_path(start, end):
     You can use the rubik.quarter_twists move set.
     Each move can be applied using rubik.perm_apply
     """
-    raise NotImplementedError
+    print(start)
+    a = rubik.perm_apply(start, rubik.F)
+    b = rubik.perm_apply(a, rubik.Fi)
+    print(a)
+    print(b)
+
+    return
+
+shortest_path(rubik.I, rubik.I)
