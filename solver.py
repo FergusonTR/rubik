@@ -1,4 +1,4 @@
-#!/usr/bin/python
+
 
 #   Terry Ferguson & Noah Davis
 #   CSC 440
@@ -6,6 +6,7 @@
 
 
 import rubik
+
 
 def shortest_path(start, end):
     """
@@ -15,35 +16,50 @@ def shortest_path(start, end):
     You can use the rubik.quarter_twists move set.
     Each move can be applied using rubik.perm_apply
     """
-    s = start
-    parent = {}
-    i = 1
-    visited = [s]
-    answer_path = []
-    frontier = [s]
-    while frontier:
-        next_one = []
+    i = 0
+    """Tracking for those nodes visited"""
+    visited = [start]
+    """my search queue"""
+    queue = []
+    path =[]
+    parent = {start:None}
+    count = 0
+    queue.append(start)
+    while len(queue) > 0:
+        count +=1
+        """remove the first item from the queue"""
+        node = queue.pop(0)
+        """Develop each of the child nodes"""
+        adj = []
+        adj.append(rubik.perm_apply(node, rubik.F))
+        adj.append(rubik.perm_apply(node, rubik.Fi))
+        adj.append(rubik.perm_apply(node, rubik.L))
+        adj.append(rubik.perm_apply(node, rubik.Li))
+        adj.append(rubik.perm_apply(node, rubik.U))
+        adj.append(rubik.perm_apply(node, rubik.Ui))
+        if node == end:
+            # path.append(node)
+            while parent[node] != None:
+                next_one = parent[node]
+                path.append(node)
+                node = next_one
+            path.reverse()
+            return path
+        for visit in adj:
+            if visit not in visited:
+                visited.append(visit)
+                queue.append(visit)
+                parent[visit] = node
 
-        for u in frontier:
-            next_adj = []
-            next_adj.append(rubik.perm_apply(u, rubik.F))
-            next_adj.append(rubik.perm_apply(u, rubik.Fi))
-            next_adj.append(rubik.perm_apply(u, rubik.L))
-            next_adj.append(rubik.perm_apply(u, rubik.Li))
-            next_adj.append(rubik.perm_apply(u, rubik.U))
-            next_adj.append(rubik.perm_apply(u, rubik.Ui))
-            for v in next_adj:
-               if v not in visited:
-                    next_one.append(v)
-                    visited.append(v)
-               if v == end:
-                    return answer_path
-            frontier = next_one
-            answer_path.append(u)
-        # print('loop :', i)
-        i += 1
-    return answer_path
-
-
-# answer = (shortest_path(rubik.I, rubik.I))
-# print (answer)
+"""
+start = rubik.I
+middle = rubik.perm_apply(rubik.F, start)
+end = rubik.perm_apply(rubik.L, middle)
+ans = shortest_path(start, end)
+print("starting position")
+print(start)
+print ("ending position")
+print(end)
+answer =(shortest_path(start, end))
+print("answer is")
+print (answer)"""
