@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 
 #   Terry Ferguson & Noah Davis
 #   CSC 440
@@ -6,60 +6,65 @@
 
 
 import rubik
+from Queue import *
 
 
 def shortest_path(start, end):
     """
     Using 2-way BFS, finds the shortest path from start_position to
-    end_position. Returns a list of moves. 
+    end_position. Returns a list of moves.
 
     You can use the rubik.quarter_twists move set.
     Each move can be applied using rubik.perm_apply
     """
-    i = 0
-    """Tracking for those nodes visited"""
-    visited = [start]
-    """my search queue"""
-    queue = []
-    path =[]
-    parent = {start:None}
-    count = 0
-    queue.append(start)
-    while len(queue) > 0:
-        count +=1
-        """remove the first item from the queue"""
-        node = queue.pop(0)
-        """Develop each of the child nodes"""
-        adj = []
-        adj.append(rubik.perm_apply(node, rubik.F))
-        adj.append(rubik.perm_apply(node, rubik.Fi))
-        adj.append(rubik.perm_apply(node, rubik.L))
-        adj.append(rubik.perm_apply(node, rubik.Li))
-        adj.append(rubik.perm_apply(node, rubik.U))
-        adj.append(rubik.perm_apply(node, rubik.Ui))
-        if node == end:
-            # path.append(node)
-            while parent[node] != None:
-                next_one = parent[node]
-                path.append(node)
-                node = next_one
-            path.reverse()
-            return path
-        for visit in adj:
-            if visit not in visited:
-                visited.append(visit)
-                queue.append(visit)
-                parent[visit] = node
 
-"""
+    frontier = Queue()
+    frontier.put(start)
+    came_from = {}
+    came_from[start] = None
+
+    i = 0
+
+    if start == end:
+        return []
+
+    while not frontier.empty():
+        current = frontier.get()
+
+        i+= 1
+
+        if current == end:
+            #return values
+
+            break
+
+        neighbors = []
+        neighbors.append(rubik.perm_apply(current, rubik.F))
+        neighbors.append(rubik.perm_apply(current, rubik.Fi))
+        neighbors.append(rubik.perm_apply(current, rubik.L))
+        neighbors.append(rubik.perm_apply(current, rubik.Li))
+        neighbors.append(rubik.perm_apply(current, rubik.U))
+        neighbors.append(rubik.perm_apply(current, rubik.Ui))
+
+        for next in neighbors:
+            if next not in came_from:
+             frontier.put(next)
+             came_from[next] = current
+
+    current = end
+    path = [current]
+    while current != start:
+       current = came_from[current]
+       path.append(current)
+    path.pop() # pop start, we don't want it i guess
+    path.reverse()
+
+    return path
+
 start = rubik.I
-middle = rubik.perm_apply(rubik.F, start)
-end = rubik.perm_apply(rubik.L, middle)
+middle1 = rubik.perm_apply(rubik.F, start)
+middle2 = rubik.perm_apply(rubik.F, middle1)
+end = rubik.perm_apply(rubik.Li, middle2)
 ans = shortest_path(start, end)
-print("starting position")
-print(start)
-print ("ending position")
-print(end)
-answer =(shortest_path(start, end))
-print("answer is")
-print (answer)"""
+
+print len(ans)
