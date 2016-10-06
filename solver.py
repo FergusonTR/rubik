@@ -8,7 +8,8 @@
 # This solution was in part assisted by an example discovered at MIT while looking for additional information on
 # breadth first searches.  The solution was in fact not optimal in that it did not search from the start and end
 # at the same time, whereas this solution integrates many loops and allows for a roughly 150ms - 200ms improvement
-# in overall timing which is due to the reduction of one of the invariant loops that in itself contained two loops.
+# in overall timing which is due to the reduction of one of the invariant loops that in itself contained two loops 
+# utilizing loop fusion.
 
 import rubik
 
@@ -78,7 +79,7 @@ def shortest_path(start, end):
         while len(start_frontier) > 0 or len(end_frontier) > 0:
             start_position = start_frontier.pop()
             end_position = end_frontier.pop()
-            for turn in twists:
+			for turn in twists:
                 start_next_position = rubik.perm_apply(turn, start_position)
                 end_next_position = rubik.perm_apply(turn,end_position)
                 if start_next_position not in start_parent:
