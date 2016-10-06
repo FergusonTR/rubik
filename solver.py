@@ -74,12 +74,13 @@ def shortest_path(start, end):
         start_next_frontier = []
         end_next_frontier = []
         """
-        Maintenance - At this point we are aware that the frontier is being explored, so long as there is more
+        Maintenance - At this point we are aware that the frontier is being explored, so long as    there is more
         """
         while len(start_frontier) > 0 or len(end_frontier) > 0:
             start_position = start_frontier.pop()
             end_position = end_frontier.pop()
-			for turn in twists:
+
+            for turn in twists:
                 start_next_position = rubik.perm_apply(turn, start_position)
                 end_next_position = rubik.perm_apply(turn,end_position)
                 if start_next_position not in start_parent:
